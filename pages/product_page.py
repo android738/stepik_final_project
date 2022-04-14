@@ -1,5 +1,4 @@
 import math
-
 from .locators import ProductPageLocators
 from .base_page import BasePage
 from selenium.common.exceptions import NoAlertPresentException
@@ -51,3 +50,11 @@ class ProductPage(BasePage):
             assert title == new_title, f"Нет текущего заголовка продукта ({title}) в уведомлении."
         else:
             raise ValueError("Не удалось получить уведомление с заголовоком продукта после оформления заказа.")
+
+    def should_be_success_message(self, timeout=4):
+        assert self.wait_element_is_not_present(*ProductPageLocators.SUCCESS_MESSAGE, timeout), \
+            "Success message is presented, but should not be"
+
+    def should_not_be_success_message(self, timeout=4):
+        assert self.wait_element_is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE, timeout), \
+            "Success message is presented, but should not be"
