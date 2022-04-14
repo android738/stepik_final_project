@@ -48,6 +48,6 @@ class ProductPage(BasePage):
     def check_title_is_correct(self, title):
         new_title = self.get_text_of_element(*ProductPageLocators.SUCCESS_ALERT_WITH_TITLE)
         if new_title:
-            assert title in new_title, f"Нет текущего заголовка продукта ({title}) в уведомлении."
+            assert title == new_title, f"Нет текущего заголовка продукта ({title}) в уведомлении."
         else:
             raise ValueError("Не удалось получить уведомление с заголовоком продукта после оформления заказа.")

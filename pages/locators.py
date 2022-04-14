@@ -19,5 +19,5 @@ class ProductPageLocators():
     ADD_TO_BASKET_BUTTON = (By.CSS_SELECTOR, ".btn-add-to-basket")
     PRICE_ELEMENT = (By.CSS_SELECTOR, ".price_color")
     TITLE_ELEMENT = (By.CSS_SELECTOR, "h1")
-    SUCCESS_ALERT_WITH_TITLE = (By.CSS_SELECTOR, ".alert-success:first-child")
+    SUCCESS_ALERT_WITH_TITLE = (By.CSS_SELECTOR, ".alert-success:first-child strong")
     INFO_ALERT_WITH_PRICE = (By.CSS_SELECTOR, ".alert-info")
