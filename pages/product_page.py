@@ -11,14 +11,14 @@ class ProductPage(BasePage):
 
     def solve_quiz_and_get_code(self):
         x = self.alert_get_text().split(" ")[2]
-        print(f"X: {x}\n")
+        print(f"\nX: {x}\n")
         answer = str(math.log(abs((12 * math.sin(float(x))))))
-        print(f"Answer: {x}\n")
+        print(f"\nAnswer: {x}\n")
         self.alert_type_text(answer)
         try:
             alert = self.browser.switch_to.alert
             alert_text = alert.text
-            print(f"Your code: {alert_text}")
+            print(f"\nYour code: {alert_text}\n")
             alert.accept()
         except NoAlertPresentException:
             print("No second alert presented")
@@ -58,6 +58,4 @@ class ProductPage(BasePage):
     def should_not_be_success_message(self, timeout=4):
         assert self.wait_element_is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE, timeout), \
             "Success message is presented, but should not be"
-
-    def test_guest_cant_see_product_in_basket_opened_from_product_page(self):
 

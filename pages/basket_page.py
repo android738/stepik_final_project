@@ -10,6 +10,6 @@ class BasketPage(BasePage):
     def basket_should_be_empty_message(self):
         message = self.get_text_of_element(*BasketPageLocators.BASKET_EMPTY)
         if message:
-            print(f"Получили сообщение о пустой корзине: \"{message}\".")
+            print(f"\nПолучили сообщение о пустой корзине: \"{message}\".\n")
         else:
             raise ValueError("Не удалось сообщение о пустой корзине.")
