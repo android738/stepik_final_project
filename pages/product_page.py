@@ -41,7 +41,7 @@ class ProductPage(BasePage):
     def check_price_is_correct(self, price):
         new_price = self.get_text_of_element(*ProductPageLocators.INFO_ALERT_WITH_PRICE)
         if new_price:
-            assert price in new_price, f"Нет текущей цены продукта ({price}) в уведомлении."
+            assert price in self.replace_all_except_numbers(new_price), f"Нет текущей цены продукта ({price}) в уведомлении."
         else:
             raise ValueError("Не удалось получить уведомление с ценой продукта после оформления заказа.")
 
