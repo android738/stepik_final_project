@@ -28,6 +28,13 @@ class BasePage():
             return False
         return True
 
+    def wait_element_is_present(self, how, what, timeout):
+        try:
+            WebDriverWait(self.browser, timeout).until(EC.presence_of_element_located((how, what)))
+        except TimeoutException:
+            return False
+        return True
+
     def wait_element_is_not_present(self, how, what, timeout):
         try:
             WebDriverWait(self.browser, timeout).until(EC.presence_of_element_located((how, what)))

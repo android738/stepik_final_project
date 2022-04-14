@@ -58,3 +58,6 @@ class ProductPage(BasePage):
     def should_not_be_success_message(self, timeout=4):
         assert self.wait_element_is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE, timeout), \
             "Success message is presented, but should not be"
+
+    def test_guest_cant_see_product_in_basket_opened_from_product_page(self):
+
