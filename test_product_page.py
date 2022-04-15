@@ -8,7 +8,7 @@ from .pages.login_page import LoginPage
 @pytest.mark.usefixtures("setup")
 class TestUserAddToBasketFromProductPage:
     @pytest.fixture
-    def setup(browser):
+    def setup(self, browser):
         link = "https://selenium1py.pythonanywhere.com/accounts/login/"
 
         email = str(time.time()) + "@fakemail.org"
