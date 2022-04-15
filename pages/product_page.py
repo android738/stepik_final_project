@@ -24,11 +24,14 @@ class ProductPage(BasePage):
             print("No second alert presented")
 
     def get_now_price(self):
-        price = self.get_text_of_element(*ProductPageLocators.PRICE_ELEMENT)
-        if price:
-            return self.replace_all_except_numbers(price)
-        else:
-            raise ValueError("Не удалось получить текущую цену продукта.")
+        try:
+            self.wait_element_is_present(*ProductPageLocators.PRICE_ELEMENT)
+            price = self.get_text_of_element(*ProductPageLocators.PRICE_ELEMENT)
+            if price:
+                return self.replace_all_except_numbers(price)
+        except TimeoutError:
+            pass
+        raise ValueError("Не удалось получить текущую цену продукта.")
 
     def get_now_title(self):
         title = self.get_text_of_element(*ProductPageLocators.TITLE_ELEMENT)
@@ -40,7 +43,8 @@ class ProductPage(BasePage):
     def check_price_is_correct(self, price):
         new_price = self.get_text_of_element(*ProductPageLocators.INFO_ALERT_WITH_PRICE)
         if new_price:
-            assert price in self.replace_all_except_numbers(new_price), f"Нет текущей цены продукта ({price}) в уведомлении."
+            assert price in self.replace_all_except_numbers(new_price), \
+                f"Нет текущей цены продукта ({price}) в уведомлении."
         else:
             raise ValueError("Не удалось получить уведомление с ценой продукта после оформления заказа.")
 
@@ -51,11 +55,10 @@ class ProductPage(BasePage):
         else:
             raise ValueError("Не удалось получить уведомление с заголовоком продукта после оформления заказа.")
 
-    def should_be_success_message(self, timeout=4):
-        assert self.wait_element_is_not_present(*ProductPageLocators.SUCCESS_MESSAGE, timeout), \
+    def should_be_success_message(self):
+        assert self.wait_element_is_not_present(*ProductPageLocators.SUCCESS_MESSAGE), \
             "Success message is presented, but should not be"
 
-    def should_not_be_success_message(self, timeout=4):
-        assert self.wait_element_is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE, timeout), \
+    def should_not_be_success_message(self):
+        assert self.wait_element_is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE), \
             "Success message is presented, but should not be"
-

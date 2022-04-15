@@ -3,8 +3,8 @@ from .base_page import BasePage
 
 
 class BasketPage(BasePage):
-    def basket_should_be_empty(self, timeout=4):
-        assert self.wait_element_is_not_present(*BasketPageLocators.BASKET_PRODUCTS_FORM, timeout), \
+    def basket_should_be_empty(self):
+        assert self.wait_element_is_not_present(*BasketPageLocators.BASKET_PRODUCTS_FORM), \
             "В корзине есть товары, а она должна была быть пустой."
 
     def basket_should_be_empty_message(self):

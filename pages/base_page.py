@@ -5,11 +5,10 @@ from selenium.webdriver.support import expected_conditions as EC
 import re
 
 
-class BasePage():
-    def __init__(self, browser, url, timeout=10):
+class BasePage:
+    def __init__(self, browser, url):
         self.browser = browser
         self.url = url
-        # self.browser.implicitly_wait(timeout)
 
     def open(self):
         self.browser.get(self.url)
@@ -18,8 +17,14 @@ class BasePage():
         login_link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
         login_link.click()
 
+    def should_be_authorized_user(self):
+        try:
+            self.wait_element_is_present(*BasePageLocators.USER_ICON)
+        except NoSuchElementException:
+            raise ValueError("Не удалось найти иконку ")
+
     def go_to_basket_page(self):
-        self.wait_element_is_present(*BasePageLocators.BASKET_MINI_LINK, 10)
+        self.wait_element_is_present(*BasePageLocators.BASKET_MINI_LINK)
         add_to_basket_button = self.browser.find_element(*BasePageLocators.BASKET_MINI_LINK)
         add_to_basket_button.click()
 
@@ -33,23 +38,23 @@ class BasePage():
             return False
         return True
 
-    def wait_element_is_present(self, how, what, timeout):
+    def wait_element_is_present(self, how, what):
         try:
-            WebDriverWait(self.browser, timeout).until(EC.presence_of_element_located((how, what)))
+            WebDriverWait(self.browser, 15).until(EC.presence_of_element_located((how, what)))
         except TimeoutException:
             return False
         return True
 
-    def wait_element_is_not_present(self, how, what, timeout):
+    def wait_element_is_not_present(self, how, what):
         try:
-            WebDriverWait(self.browser, timeout).until(EC.presence_of_element_located((how, what)))
+            WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((how, what)))
         except TimeoutException:
             return True
         return False
 
-    def wait_element_is_disappeared(self, how, what, timeout):
+    def wait_element_is_disappeared(self, how, what):
         try:
-            WebDriverWait(self.browser, timeout, 1, TimeoutException). \
+            WebDriverWait(self.browser, 15, 1, TimeoutException). \
                 until_not(EC.presence_of_element_located((how, what)))
         except TimeoutException:
             return False
@@ -57,8 +62,9 @@ class BasePage():
 
     def get_text_of_element(self, how, what):
         try:
-            return self.browser.find_element(how, what).text
-        except Exception:
+            element = self.browser.find_element(how, what)
+            return element.text
+        except NoSuchElementException:
             return ""
 
     def alert_get_text(self):
